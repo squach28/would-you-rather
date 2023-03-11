@@ -80,6 +80,7 @@ function Header() {
                 </div>
                 :
                 <button 
+                    className="sign-in-btn"
                     onClick={currentUser ? handleSignOut : handleSignIn}
                 >Sign In
                 </button> 

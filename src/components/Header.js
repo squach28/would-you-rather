@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
 import { auth } from '../firebase'
+import '../styles/Header.css'
+import { Link } from 'react-router-dom'
 
 function Header() {
 
     const [currentUser, setCurrentUser] = useState(undefined)
+    const [showMenu, setShowMenu] = useState(false)
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
@@ -14,6 +17,12 @@ function Header() {
             }
         })
     }, [])
+
+    // toggles the menu for users who are on mobile
+    function toggleMenu() {
+        setShowMenu(oldShow => !oldShow)
+        console.log(showMenu)
+    }
 
     function handleSignIn() {
         const provider = new GoogleAuthProvider()
@@ -48,7 +57,35 @@ function Header() {
     return (
         <header>
             <h1>Would you rather?</h1>
-            <button onClick={currentUser ? handleSignOut : handleSignIn}>{currentUser ? "Sign Out" : "Sign In"}</button>
+            {currentUser ? 
+                <div onClick={toggleMenu}className="user-container">
+                    <div className="user-name">
+                        <p>Hello {currentUser.displayName.split(' ')[0]}</p>
+                        <div className={showMenu ? "arrow-up" : "arrow-down"}></div>
+                    </div>
+                    {showMenu && <div className="menu">
+                        <ul className="menu-list">
+                            <li>
+                                <Link to='/'>Home</Link>
+                            </li>
+                            <li>
+                                <Link to="/:userId/history">History</Link>
+                            </li>
+                            <li onClick={handleSignOut}>
+                                Sign Out
+                            </li>
+                        </ul>
+                    </div>
+                    }
+                </div>
+                :
+                <button 
+                    onClick={currentUser ? handleSignOut : handleSignIn}
+                >Sign In
+                </button> 
+
+            }
+
         </header>
     )
 }

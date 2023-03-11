@@ -1,0 +1,76 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 2em 1em;
+    align-items: center;
+    background-color: #BBD1EA;
+    box-shadow: 0 3px 2px rgba(80, 125, 188, 0.5);
+    color: rgb(10, 10, 10);
+    font-family: 'Poppins';
+    
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+p {
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+}
+
+.user-container {
+    position: relative;
+}
+
+.user-name {
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
+    cursor: pointer;
+    padding: 0.5em;
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgb(10, 10, 10);
+}
+
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid rgb(10, 10, 10);
+}
+
+.menu {
+    top: 1em;
+    right: 0;
+    display: block;
+    position: absolute;
+}
+
+.menu-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    text-align: end;
+    background-color: white;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.menu-list > li {
+    padding: 0.5em 0.25em;
+    max-width: 200px;
+    border-bottom: 1px solid gray;
+    
+}

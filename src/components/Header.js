@@ -5,14 +5,12 @@ import '../styles/Header.css'
 import { Link } from 'react-router-dom'
 
 function Header() {
-
     const [currentUser, setCurrentUser] = useState(undefined)
     const [showMenu, setShowMenu] = useState(false)
 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if(user) {
-                console.log(user)
                 setCurrentUser(user)
             }
         })
@@ -21,7 +19,6 @@ function Header() {
     // toggles the menu for users who are on mobile
     function toggleMenu() {
         setShowMenu(oldShow => !oldShow)
-        console.log(showMenu)
     }
 
     function handleSignIn() {
@@ -30,25 +27,25 @@ function Header() {
             .then(result => {
                 const credential = GoogleAuthProvider.credentialFromResult(result)
                 const token = credential.accessToken 
-
                 const user = result.user 
+                console.log('user', user)
+                localStorage.setItem('uid', user.uid)
+                localStorage.setItem('token', token)
             })
             .catch(error => {
                 const errorCode = error.code 
                 const errorMessage = error.message 
                 console.log(errorCode)
                 console.log(errorMessage)
-
                 const email = error.customData.email 
-
                 const credential = GoogleAuthProvider.credentialFromError(error)
             })
     }
 
     function handleSignOut() {
         signOut(auth).then(() => {
-            console.log('signed out!')
             setCurrentUser(undefined)
+            localStorage.removeItem('uid')
         })
         .catch(error =>
             console.error(error))

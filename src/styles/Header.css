@@ -5,7 +5,7 @@ header {
     align-items: center;
     background-color: #BBD1EA;
     box-shadow: 0 3px 2px rgba(80, 125, 188, 0.5);
-    color: rgb(10, 10, 10);
+    color: #04080F;
     font-family: 'Poppins';
     
 }
@@ -13,7 +13,6 @@ header {
 h1 {
     margin: 0;
     font-size: 1.4rem;
-    color: #2a64b5;
 }
 
 p {

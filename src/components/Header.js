@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
+import { doc, setDoc, getDocs, collection } from 'firebase/firestore'
+import { db } from '../firebase'
 import { auth } from '../firebase'
 import '../styles/Header.css'
 import { Link } from 'react-router-dom'
@@ -29,8 +31,17 @@ function Header() {
                 const token = credential.accessToken 
                 const user = result.user 
                 console.log('user', user)
+                const docs = getDocs(collection(db, "users"))
+                    .then(result => {
+                        const currentUser = result.docs.filter(doc => doc.id === user.uid)
+                        if(currentUser.length <= 0) {
+                            setDoc(doc(db, "users", user.uid), {})
+                        }
+                    })
+                console.log(docs)
                 localStorage.setItem('uid', user.uid)
                 localStorage.setItem('token', token)
+                
             })
             .catch(error => {
                 const errorCode = error.code 
@@ -53,7 +64,7 @@ function Header() {
 
     return (
         <header>
-            <h1>Would you rather?</h1>
+            <h1>WYR?</h1>
             {currentUser ? 
                 <div onClick={toggleMenu}className="user-container">
                     <div className="user-name">

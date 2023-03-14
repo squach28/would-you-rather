@@ -33,7 +33,7 @@ function Header(props) {
                 const user = result.user 
                 addUser(user.uid)
                 localStorage.setItem('uid', user.uid)
-                
+                window.location.reload()
             })
             .catch(error => {
                 const errorCode = error.code 
@@ -49,6 +49,7 @@ function Header(props) {
         signOut(auth).then(() => {
             setCurrentUser(undefined)
             localStorage.removeItem('uid')
+            window.location.reload()
         })
         .catch(error =>
             console.error(error))

@@ -18,7 +18,8 @@ function ResultChart(props) {
         <div>
             {props.secondOptionValue}: {(props.secondOptionCount / total * 100).toFixed(0)}% ({props.secondOptionCount} votes!)
         </div>
-        <PieChart 
+        <PieChart
+            className="pie-chart" 
             data={[
                 { title: props.firstOptionValue, value: props.firstOptionCount, color: 'red'},
                 { title: props.secondOptionValue, value: props.secondOptionCount, color: 'blue'}

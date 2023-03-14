@@ -87,6 +87,9 @@ function App() {
 
   function checkIfUserVoted(questionId) {
     const uid = getCurrentUserUid()
+    if(uid == null) {
+      setLoading(false)
+    }
     const userDoc = doc(db, 'users', uid)
     getDoc(userDoc)
       .then(result => {
@@ -101,22 +104,26 @@ function App() {
       <Header loading={loading}/>
       <div className="options-container">
         <h1 className="header">Would You Rather...</h1>
-        {!loading ? !answered && question ? 
-        <div>
-          <Option option={question.firstOption.value} vote={() => vote(question.firstOption)} />
-          <h2>OR</h2>
-          <Option option={question.secondOption.value} vote={() => vote(question.secondOption)} />
-        </div> 
-          : 
-            <ResultChart 
-              firstOptionValue={question.firstOption.value} 
-              firstOptionCount={question.firstOption.count}
-              secondOptionValue={question.secondOption.value}
-              secondOptionCount={question.secondOption.count}
-            />
+        {
+          !loading ? 
+            auth.currentUser ? 
+              !answered && question ? 
+              <div>
+                <Option option={question.firstOption.value} vote={() => vote(question.firstOption)} />
+                <h2>OR</h2>
+                <Option option={question.secondOption.value} vote={() => vote(question.secondOption)} />
+              </div> 
+              : 
+              <ResultChart 
+                firstOptionValue={question.firstOption.value} 
+                firstOptionCount={question.firstOption.count}
+                secondOptionValue={question.secondOption.value}
+                secondOptionCount={question.secondOption.count}
+              />
+              :  <div>not logged in</div>
+              
 
-           : 
-          <ClipLoader />
+          : <ClipLoader />
           
           }
       </div>

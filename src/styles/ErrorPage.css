@@ -7,7 +7,19 @@
     align-items: center;
 }
 
+.error-header {
+    font-size: 1.75rem;
+}
+
 .error-image {
     width: 100%;
     max-width: 500px;
+}
+
+.error-details {
+    font-size: 1.25rem;
+}
+
+.bold {
+    font-weight: 700;
 }

@@ -1,3 +1,31 @@
 text {
     font: regular 10px sans-serif;
 }
+
+.result-chart-container {
+    margin-top: 1.5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+}
+
+.option-color-box {
+    width: 1em;
+    height: 1em;
+}
+
+#first-option-color {
+    background-color: red;
+}
+
+#second-option-color {
+    background-color: blue;
+}
+
+.option-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    align-self: start;
+}

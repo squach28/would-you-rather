@@ -11,11 +11,13 @@ function ResultChart(props) {
     }
 
   return (
-    <div>
-        <div>
+    <div className="result-chart-container">
+        <div className="option-container">
+            <div id="first-option-color" className="option-color-box"></div>
             {props.firstOptionValue}: {(props.firstOptionCount / total * 100).toFixed(0)}% ({props.firstOptionCount} votes!)
         </div>
-        <div>
+        <div className="option-container">
+            <div id="second-option-color" className="option-color-box"></div>
             {props.secondOptionValue}: {(props.secondOptionCount / total * 100).toFixed(0)}% ({props.secondOptionCount} votes!)
         </div>
         <PieChart

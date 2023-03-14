@@ -89,6 +89,7 @@ function App() {
     const uid = getCurrentUserUid()
     if(uid == null) {
       setLoading(false)
+      return
     }
     const userDoc = doc(db, 'users', uid)
     getDoc(userDoc)
@@ -120,7 +121,7 @@ function App() {
                 secondOptionValue={question.secondOption.value}
                 secondOptionCount={question.secondOption.count}
               />
-              :  <div>Log in to see today's question and results!</div>
+              :  <div>Sign in to see today's question and results!</div>
               
 
           : <ClipLoader />

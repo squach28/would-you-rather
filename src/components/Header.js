@@ -32,7 +32,6 @@ function Header() {
                 const user = result.user 
                 addUser(user.uid)
                 localStorage.setItem('uid', user.uid)
-                localStorage.setItem('token', token)
                 
             })
             .catch(error => {

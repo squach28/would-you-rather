@@ -13,6 +13,7 @@
     font-weight: 700;
     cursor: pointer;
     justify-content: center;
+    animation: moveIntoView 1s;
 }
 
 p {
@@ -26,4 +27,12 @@ p {
 img { 
     width: 100%;
     border-radius: 10px;
+}
+
+@keyframes moveIntoView {
+    0% {
+        transform: translateX(-200%);
+    } 100% {
+        transform: translateX(0);
+    }
 }

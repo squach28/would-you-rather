@@ -49,6 +49,8 @@ function App() {
       })
   }
 
+  // retrieves the current user's uid 
+  // fetches from local storage if stored in there, otherwise fetches from auth object 
   function getCurrentUserUid() {
     if(localStorage.getItem('uid')) {
       return localStorage.getItem('uid')
@@ -76,13 +78,15 @@ function App() {
     updateDoc(userDoc, {
       history: arrayUnion(answeredQuestion)
     })
+  }
+
+  function checkIfUserVoted() {
 
   }
 
   return (
     <div className="App">
       <Header />
-
       <div className="options-container">
         <h1 className="header">Would You Rather...</h1>
         {question ? 

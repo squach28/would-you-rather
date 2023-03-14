@@ -16,7 +16,7 @@ function App() {
 
   useEffect(() => {
     getTodaysQuestion()
-  }, [])
+  })
 
   function getTodaysQuestion() {
     const docs = getDocs(collection(db, "would-you-rather"))

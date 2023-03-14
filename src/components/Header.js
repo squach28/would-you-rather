@@ -28,8 +28,6 @@ function Header(props) {
         const provider = new GoogleAuthProvider()
         signInWithPopup(auth, provider)
             .then(result => {
-                const credential = GoogleAuthProvider.credentialFromResult(result)
-                const token = credential.accessToken 
                 const user = result.user 
                 addUser(user.uid)
                 localStorage.setItem('uid', user.uid)
@@ -40,8 +38,6 @@ function Header(props) {
                 const errorMessage = error.message 
                 console.log(errorCode)
                 console.log(errorMessage)
-                const email = error.customData.email 
-                const credential = GoogleAuthProvider.credentialFromError(error)
             })
     }
 

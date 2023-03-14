@@ -5,11 +5,14 @@ import Header from './components/Header'
 import { db } from './firebase'
 import { auth } from './firebase';
 import { arrayUnion, collection, doc, getDocs, getDoc, updateDoc } from 'firebase/firestore'
+import { ClipLoader } from 'react-spinners';
+import ResultChart from './components/ResultChart';
 
 function App() {
 
   const [question, setQuestion] = useState()
   const [answered, setAnswered] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     getTodaysQuestion()
@@ -89,22 +92,35 @@ function App() {
       .then(result => {
         const answered = result.data().history.filter(question => question.id === questionId).length > 0
         setAnswered(answered)
+        setLoading(false)
       })
   }
 
   return (
     <div className="App">
-      <Header />
+      <Header loading={loading}/>
       <div className="options-container">
         <h1 className="header">Would You Rather...</h1>
-        {question && !answered ? 
+        {!loading ? !answered && question ? 
         <div>
           <Option option={question.firstOption.value} vote={() => vote(question.firstOption)} />
           <h2>OR</h2>
           <Option option={question.secondOption.value} vote={() => vote(question.secondOption)} />
         </div> 
-          : <div>You already answered!</div>}
+          : 
+            <ResultChart 
+              firstOptionValue={question.firstOption.value} 
+              firstOptionCount={question.firstOption.count}
+              secondOptionValue={question.secondOption.value}
+              secondOptionCount={question.secondOption.count}
+            />
+
+           : 
+          <ClipLoader />
+          
+          }
       </div>
+        
     </div>
   );
 }

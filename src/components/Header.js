@@ -5,8 +5,9 @@ import { db } from '../firebase'
 import { auth } from '../firebase'
 import '../styles/Header.css'
 import { Link } from 'react-router-dom'
+import { ClipLoader } from 'react-spinners'
 
-function Header() {
+function Header(props) {
     const [currentUser, setCurrentUser] = useState(undefined)
     const [showMenu, setShowMenu] = useState(false)
 
@@ -73,7 +74,7 @@ function Header() {
     return (
         <header>
             <h1>WYR?</h1>
-            {currentUser ? 
+            {!props.loading ? currentUser ? 
                 <div onClick={toggleMenu}className="user-container">
                     <div className="user-name">
                         <p>Hello {currentUser.displayName.split(' ')[0]}</p>
@@ -99,7 +100,7 @@ function Header() {
                     className="sign-in-btn"
                     onClick={currentUser ? handleSignOut : handleSignIn}
                 >Sign In
-                </button> 
+                </button>  : <ClipLoader />
 
             }
 

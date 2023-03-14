@@ -120,7 +120,7 @@ function App() {
                 secondOptionValue={question.secondOption.value}
                 secondOptionCount={question.secondOption.count}
               />
-              :  <div>not logged in</div>
+              :  <div>Log in to see today's question and results!</div>
               
 
           : <ClipLoader />

@@ -74,7 +74,7 @@ function Header(props) {
 
     return (
         <header>
-            <h1>WYR?</h1>
+            <h1><Link className="header" to="/">WYR?</Link></h1>
             {!props.loading ? currentUser ? 
                 <div onClick={toggleMenu}className="user-container">
                     <div className="user-name">

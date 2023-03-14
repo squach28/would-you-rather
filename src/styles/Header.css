@@ -23,6 +23,12 @@ ul {
     padding: 0;
 }
 
+.header {
+    text-decoration: none;
+    color: black;
+    
+}
+
 .user-container {
     position: relative;
     cursor: pointer;

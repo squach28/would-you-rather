@@ -30,15 +30,7 @@ function Header() {
                 const credential = GoogleAuthProvider.credentialFromResult(result)
                 const token = credential.accessToken 
                 const user = result.user 
-                console.log('user', user)
-                const docs = getDocs(collection(db, "users"))
-                    .then(result => {
-                        const currentUser = result.docs.filter(doc => doc.id === user.uid)
-                        if(currentUser.length <= 0) {
-                            setDoc(doc(db, "users", user.uid), {})
-                        }
-                    })
-                console.log(docs)
+                addUser(user.uid)
                 localStorage.setItem('uid', user.uid)
                 localStorage.setItem('token', token)
                 
@@ -60,6 +52,23 @@ function Header() {
         })
         .catch(error =>
             console.error(error))
+    }
+
+    // adds the user to the users collection in firestore if the user doesn't exist
+    // database keeps track of user's histories
+    function addUser(uid) {
+        getDocs(collection(db, "users"))
+            .then(result => {
+                const currentUser = result.docs.filter(doc => doc.id === uid)
+                if(currentUser.length <= 0) {
+                    setDoc(doc(db, "users", uid), {
+                        history: []
+                    })
+                }
+            })
+            .catch(error => {
+                console.log(`error! ${error}`)
+            })
     }
 
     return (

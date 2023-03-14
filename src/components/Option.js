@@ -13,7 +13,7 @@ function Option(props) {
 
 
   return (
-      <div className="option">
+      <div onClick={props.vote} className="option">
         <p>{props.option}</p>
       </div> 
   )

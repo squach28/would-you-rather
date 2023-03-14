@@ -4,11 +4,12 @@ import Option from './components/Option';
 import Header from './components/Header'
 import { db } from './firebase'
 import { auth } from './firebase';
-import { arrayUnion, collection, doc, getDocs, setDoc, updateDoc } from 'firebase/firestore'
+import { arrayUnion, collection, doc, getDocs, getDoc, updateDoc } from 'firebase/firestore'
 
 function App() {
 
   const [question, setQuestion] = useState()
+  const [answered, setAnswered] = useState(false)
 
   useEffect(() => {
     getTodaysQuestion()
@@ -19,6 +20,7 @@ function App() {
     docs.then(result => {
       const todaysQuestion = result.docs.filter(doc => doc.id === 'todays_question')[0]
       setQuestion(todaysQuestion.data())
+      checkIfUserVoted(todaysQuestion.data().id)
    //   setQuestion(todaysQuestion.data().
 
     }) 
@@ -63,7 +65,7 @@ function App() {
 
   function addToUserHistory(option) {
     const uid = getCurrentUserUid()
-    const userDoc = doc(db, "users", uid)
+    const userDoc = doc(db, 'users', uid)
     if(uid === null) {
       return 
     }
@@ -80,8 +82,14 @@ function App() {
     })
   }
 
-  function checkIfUserVoted() {
-
+  function checkIfUserVoted(questionId) {
+    const uid = getCurrentUserUid()
+    const userDoc = doc(db, 'users', uid)
+    getDoc(userDoc)
+      .then(result => {
+        const answered = result.data().history.filter(question => question.id === questionId).length > 0
+        setAnswered(answered)
+      })
   }
 
   return (
@@ -89,13 +97,13 @@ function App() {
       <Header />
       <div className="options-container">
         <h1 className="header">Would You Rather...</h1>
-        {question ? 
+        {question && !answered ? 
         <div>
           <Option option={question.firstOption.value} vote={() => vote(question.firstOption)} />
           <h2>OR</h2>
           <Option option={question.secondOption.value} vote={() => vote(question.secondOption)} />
         </div> 
-          : null}
+          : <div>You already answered!</div>}
       </div>
     </div>
   );

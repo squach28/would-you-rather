@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react'
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth'
 import { doc, setDoc, getDocs, collection } from 'firebase/firestore'
 import { db } from '../firebase'
-import { auth } from '../firebase'
 import '../styles/Header.css'
 import { Link } from 'react-router-dom'
 import { ClipLoader } from 'react-spinners'
@@ -12,7 +11,7 @@ function Header(props) {
     const [showMenu, setShowMenu] = useState(false)
 
     useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(props.auth, (user) => {
             if(user) {
                 setCurrentUser(user)
             }
@@ -26,7 +25,7 @@ function Header(props) {
 
     function handleSignIn() {
         const provider = new GoogleAuthProvider()
-        signInWithPopup(auth, provider)
+        signInWithPopup(props.auth, provider)
             .then(result => {
                 const user = result.user 
                 addUser(user.uid)
@@ -42,7 +41,7 @@ function Header(props) {
     }
 
     function handleSignOut() {
-        signOut(auth).then(() => {
+        signOut(props.auth).then(() => {
             setCurrentUser(undefined)
             localStorage.removeItem('uid')
             window.location.reload()
@@ -83,7 +82,7 @@ function Header(props) {
                                 <Link to='/'>Home</Link>
                             </li>
                             <li>
-                                <Link to="/:userId/history">History</Link>
+                                <Link to={`/${props.auth.currentUser.uid}/history`}>History</Link>
                             </li>
                             <li onClick={handleSignOut}>
                                 Sign Out

@@ -7,6 +7,7 @@ import { auth } from './firebase';
 import { arrayUnion, collection, doc, getDocs, getDoc, updateDoc } from 'firebase/firestore'
 import { ClipLoader } from 'react-spinners';
 import ResultChart from './components/ResultChart';
+import giraffeImage from './assets/images/giraffe.png'
 
 function App() {
 
@@ -24,9 +25,10 @@ function App() {
       const todaysQuestion = result.docs.filter(doc => doc.id === 'todays_question')[0]
       setQuestion(todaysQuestion.data())
       checkIfUserVoted(todaysQuestion.data().id)
-   //   setQuestion(todaysQuestion.data().
-
     }) 
+    .catch(err => {
+      setLoading(false)
+    })
   }
 
   // votes for the specified option and increments count in database
@@ -66,6 +68,7 @@ function App() {
     }
   }
 
+  // adds the question id and option that the user voted into user's history
   function addToUserHistory(option) {
     const uid = getCurrentUserUid()
     const userDoc = doc(db, 'users', uid)
@@ -85,6 +88,7 @@ function App() {
     })
   }
 
+  // checks if the user voted by checking the user's history
   function checkIfUserVoted(questionId) {
     const uid = getCurrentUserUid()
     if(uid == null) {
@@ -98,11 +102,15 @@ function App() {
         setAnswered(answered)
         setLoading(false)
       })
+      .catch(err => {
+          console.error(err)
+          setLoading(false)
+        })
   }
 
   return (
     <div className="App">
-      <Header loading={loading}/>
+      <Header loading={loading} auth={auth}/>
       <div className="options-container">
         <h1 className="header">Would You Rather...</h1>
         {
@@ -121,14 +129,16 @@ function App() {
                 secondOptionValue={question.secondOption.value}
                 secondOptionCount={question.secondOption.count}
               />
-              :  <div>Sign in to see today's question and results!</div>
+              : <div className="sign-in-msg-container">
+                  <p>Sign in to see today's question and results!</p>
+                  <img className="giraffe-image" src={giraffeImage} alt="giraffe with his mind blown" />
+                </div>
               
 
           : <ClipLoader />
           
           }
       </div>
-        
     </div>
   );
 }

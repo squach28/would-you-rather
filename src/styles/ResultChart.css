@@ -8,6 +8,7 @@ text {
     flex-direction: column;
     align-items: center;
     gap: 1em;
+    text-align: center;
 }
 
 .option-color-box {
@@ -16,16 +17,20 @@ text {
 }
 
 #first-option-color {
-    background-color: red;
+    background-color: rgb(216, 118, 118);
 }
 
 #second-option-color {
-    background-color: blue;
+    background-color: rgb(137, 137, 205);
 }
 
 .option-container {
     display: flex;
     align-items: center;
     gap: 0.5em;
-    align-self: start;
+    text-align: center;
+}
+
+.pie-chart {
+    max-width: 300px;
 }

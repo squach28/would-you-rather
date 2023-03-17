@@ -12,8 +12,8 @@ h2 {
 
 .header {
   margin-top: 1em;
-  font-size: 2rem;
-  color: #2a64b5;
+  font-size: 3rem;
+  text-align: center;
 }
 
 .sign-in-msg-container {

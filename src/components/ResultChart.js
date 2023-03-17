@@ -14,7 +14,7 @@ function ResultChart(props) {
     <div className="result-chart-container">
         <div className="option-container">
             <div id="first-option-color" className="option-color-box"></div>
-            {props.firstOptionValue}: {(props.firstOptionCount / total * 100).toFixed(0)}% ({props.firstOptionCount} votes!)
+            {props.firstOptionValue}: <p className={props.votedFor ? "bold" : ""}>{(props.firstOptionCount / total * 100).toFixed(0)}% ({props.firstOptionCount} votes!)</p>
         </div>
         <div className="option-container">
             <div id="second-option-color" className="option-color-box"></div>
@@ -23,8 +23,8 @@ function ResultChart(props) {
         <PieChart
             className="pie-chart" 
             data={[
-                { title: props.firstOptionValue, value: props.firstOptionCount, color: 'red'},
-                { title: props.secondOptionValue, value: props.secondOptionCount, color: 'blue'}
+                { title: props.firstOptionValue, value: props.firstOptionCount, color: 'rgb(216, 118, 118)'},
+                { title: props.secondOptionValue, value: props.secondOptionCount, color: 'rgb(137, 137, 205)'}
             ]}
             startAngle={90}
             label={({ dataEntry }) => dataEntry.title}

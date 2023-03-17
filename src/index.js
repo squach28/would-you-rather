@@ -6,17 +6,17 @@ import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ErrorPage from './components/ErrorPage';
 import History from './components/History';
+import { auth, db } from './firebase'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <App auth={auth} db={db} />,
     errorElement: <ErrorPage />
   },
   {
     path: '/:uid/history',
-    element: <History />,
-    errorElement: <ErrorPage />
+    element: <History auth={auth} db={db} />,
   }
 ])
 

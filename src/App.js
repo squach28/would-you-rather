@@ -2,14 +2,12 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import Option from './components/Option';
 import Header from './components/Header'
-import { db } from './firebase'
-import { auth } from './firebase';
 import { arrayUnion, collection, doc, getDocs, getDoc, updateDoc } from 'firebase/firestore'
 import { ClipLoader } from 'react-spinners';
 import ResultChart from './components/ResultChart';
 import giraffeImage from './assets/images/giraffe.png'
 
-function App() {
+function App(props) {
 
   const [question, setQuestion] = useState()
   const [answered, setAnswered] = useState(false)
@@ -20,7 +18,7 @@ function App() {
   })
 
   function getTodaysQuestion() {
-    const docs = getDocs(collection(db, "would-you-rather"))
+    const docs = getDocs(collection(props.db, "would-you-rather"))
     docs.then(result => {
       const todaysQuestion = result.docs.filter(doc => doc.id === 'todays_question')[0]
       setQuestion(todaysQuestion.data())
@@ -33,7 +31,7 @@ function App() {
 
   // votes for the specified option and increments count in database
   function vote(option) {
-    getDocs(collection(db, 'would-you-rather'))
+    getDocs(collection(props.db, 'would-you-rather'))
       .then(result => {
         let data = {}
         const todaysQuestion = result.docs.filter(doc => doc.id === 'todays_question')[0]
@@ -50,19 +48,19 @@ function App() {
               count: parseInt(todaysQuestion.data().secondOption.count) + 1
             }
           }
-        const qotd = doc(db, 'would-you-rather', 'todays_question')
+        const qotd = doc(props.db, 'would-you-rather', 'todays_question')
         updateDoc(qotd, data)    
         addToUserHistory(option)
       })
   }
 
   // retrieves the current user's uid 
-  // fetches from local storage if stored in there, otherwise fetches from auth object 
+  // fetches from local storage if stored in there, otherwise fetches from props.auth object 
   function getCurrentUserUid() {
     if(localStorage.getItem('uid')) {
       return localStorage.getItem('uid')
-    } else if(auth.currentUser) {
-      return auth.currentUser.uid 
+    } else if(props.auth.currentUser) {
+      return props.auth.currentUser.uid 
     } else {
       return null
     }
@@ -71,7 +69,7 @@ function App() {
   // adds the question id and option that the user voted into user's history
   function addToUserHistory(option) {
     const uid = getCurrentUserUid()
-    const userDoc = doc(db, 'users', uid)
+    const userDoc = doc(props.db, 'users', uid)
     if(uid === null) {
       return 
     }
@@ -95,7 +93,7 @@ function App() {
       setLoading(false)
       return
     }
-    const userDoc = doc(db, 'users', uid)
+    const userDoc = doc(props.db, 'users', uid)
     getDoc(userDoc)
       .then(result => {
         const answered = result.data().history.filter(question => question.id === questionId).length > 0
@@ -110,14 +108,14 @@ function App() {
 
   return (
     <div className="App">
-      <Header loading={loading} auth={auth}/>
+      <Header loading={loading} auth={props.auth}/>
       <div className="options-container">
-        <h1 className="header">Would You Rather...</h1>
         {
           !loading ? 
-            auth.currentUser ? 
+            props.auth.currentUser ? 
               !answered && question ? 
               <div>
+                <h1 className="header">Would You Rather...</h1>
                 <Option option={question.firstOption.value} vote={() => vote(question.firstOption)} />
                 <h2>OR</h2>
                 <Option option={question.secondOption.value} vote={() => vote(question.secondOption)} />
@@ -130,7 +128,7 @@ function App() {
                 secondOptionCount={question.secondOption.count}
               />
               : <div className="sign-in-msg-container">
-                  <p>Sign in to see today's question and results!</p>
+                  <p>Sign in to answer today's question and see the results!</p>
                   <img className="giraffe-image" src={giraffeImage} alt="giraffe with his mind blown" />
                 </div>
               

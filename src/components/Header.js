@@ -44,7 +44,7 @@ function Header(props) {
         signOut(props.auth).then(() => {
             setCurrentUser(undefined)
             localStorage.removeItem('uid')
-            window.location.reload()
+            window.location= "/"
         })
         .catch(error =>
             console.error(error))

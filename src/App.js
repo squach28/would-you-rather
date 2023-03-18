@@ -22,7 +22,7 @@ function App(props) {
     docs.then(result => {
       const todaysQuestion = result.docs.filter(doc => doc.id === 'todays_question')[0]
       setQuestion(todaysQuestion.data())
-      checkIfUserVoted(todaysQuestion.data().id)
+     checkIfUserVoted(todaysQuestion.data().id)
     }) 
     .catch(err => {
       setLoading(false)

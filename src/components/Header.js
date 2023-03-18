@@ -28,9 +28,9 @@ function Header(props) {
         signInWithPopup(props.auth, provider)
             .then(result => {
                 const user = result.user 
+                console.log(user.uid)
                 addUser(user.uid)
                 localStorage.setItem('uid', user.uid)
-                window.location.reload()
             })
             .catch(error => {
                 const errorCode = error.code 

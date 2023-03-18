@@ -52,6 +52,7 @@ function App(props) {
         updateDoc(qotd, data)    
         addToUserHistory(option)
       })
+      .catch(error => console.error(error))
   }
 
   // retrieves the current user's uid 
